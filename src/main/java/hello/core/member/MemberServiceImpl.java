@@ -3,8 +3,14 @@ package hello.core.member;
 //구현 클래스(구현)
 public class MemberServiceImpl implements MemberService{
 
-    //인터페이스(추상화) 의존                            &        구현체(구체화) 의존   => 둘 다 의존 => 되게 안좋음!(DIP 위반)
-    private final MemberRepository memberRepository = new MemoryMemberRepository();//다형성 적용
+    //추상(인터페이스)에만 의존!!! => DIP를 준수
+    private final MemberRepository memberRepository;
+
+    //생성자를 통해서 MemberRepository의 구현체가 들어감
+    //=> 의존관계를 외부에서 주입 => DI(Dependency Injection, 의존관계주입)
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public void join(Member member) {

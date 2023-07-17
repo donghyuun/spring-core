@@ -11,8 +11,11 @@ import hello.core.order.OrderServiceImpl;
 public class OrderApp {
 
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
-        OrderService orderService = new OrderServiceImpl();
+        AppConfig appConfig = new AppConfig();
+
+        //추상(인터페이스)에만 의존!!! => DIP를 준수
+        MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
 
         Long memberId = 1L;
         Member member = new Member(memberId, "memberA", Grade.VIP);
