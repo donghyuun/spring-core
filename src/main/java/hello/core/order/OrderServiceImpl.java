@@ -10,7 +10,7 @@ import hello.core.member.MemoryMemberRepository;
 public class OrderServiceImpl implements OrderService{
     //추상(인터페이스)에만 의존 => DIP준수!!!
     private final MemberRepository memberRepository;
-    private DiscountPolicy discountPolicy;
+    private final DiscountPolicy discountPolicy;
 
     //객체 의존관계가 주입됨 => DI(dependency injection)
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
