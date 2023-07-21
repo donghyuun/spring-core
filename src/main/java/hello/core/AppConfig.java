@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 //공연 기힉자의 역할, 구체 클래스를 선택한다. 배역에 맞는 담당 배우를 선택. 애플리케이션 동작의 전체 구성을 책임진다.
 @Configuration
 public class AppConfig {
-    /*싱글톤이 아닐때 아래 메서드들을 한번씩 호출할때*/
+    /*싱글톤이 아닐때 아래 메서드들을 한번씩 호출할때(discountPolicy 제외)*/
     //call AppConfig.memberService
     //call AppConfig.memberRepository
     //call AppConfig.memberRepository
