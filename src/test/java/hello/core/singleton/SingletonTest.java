@@ -6,6 +6,8 @@ import hello.core.member.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class SingletonTest {
 
@@ -25,5 +27,38 @@ public class SingletonTest {
 
         //memberService1 != memberService2
         Assertions.assertThat(memberService1).isNotSameAs(memberService2);
+    }
+
+    @Test
+    @DisplayName("싱글톤 패턴을 적용한 객체 사용")
+    void singletonServiveTest(){
+        SingletonService singletonService1 = SingletonService.getInstance();//static은 객체 생성 없이 바로 호출 할 수 있음, 객체에 종속 X
+        SingletonService singletonService2 = SingletonService.getInstance();
+
+        //같은 객체 인스턴스가 반환된 것을 볼 수 있다. 그냥 같은 참조를 가져온 것 뿐임!!
+        System.out.println("singletonService1 = " + singletonService1);
+        System.out.println("singletonService2 = " + singletonService2);
+
+        Assertions.assertThat(singletonService1).isSameAs(singletonService2);
+        //same => 참조를 비교하는것
+        //equal => 자바의 equals 메서드와 동일
+
+    }
+
+    @Test
+    @DisplayName("스프링 컨테이너와 싱글톤")
+    void springContainer() {
+//        AppConfig appConfig = new AppConfig();
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        MemberService memberService1 = ac.getBean("memberService", MemberService.class);
+        MemberService memberService2 = ac.getBean("memberService", MemberService.class);
+
+        //참조값이 같은 것을 확인
+        System.out.println("memberService1 = " + memberService1);
+        System.out.println("memberService2 = " + memberService2);
+
+        //memberService1 != memberService2
+        Assertions.assertThat(memberService1).isSameAs(memberService2);
     }
 }
