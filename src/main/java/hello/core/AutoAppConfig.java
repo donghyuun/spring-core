@@ -1,5 +1,8 @@
 package hello.core;
 
+import hello.core.member.MemberRepository;
+import hello.core.member.MemoryMemberRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -14,5 +17,9 @@ import org.springframework.stereotype.Component;
         excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)//@Configuration(@Component 가짐)은 이미 수동으로 추가된 빈들을 가지므로
 )
 public class AutoAppConfig {
-
+//    자동 빈 vs 수동 빈 충돌: 스프링에선 수동 빈이 자동 빈을 override, 스프링 부트에선 기본적으로 충돌 허용 X
+//    @Bean(name = "memoryMemberRepository")
+//    MemberRepository memberRepository(){
+//        return new MemoryMemberRepository();
+//    }
 }
