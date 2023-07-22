@@ -12,8 +12,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderServiceImpl implements OrderService{
     //추상(인터페이스)에만 의존 => DIP준수!!!
-    private final MemberRepository memberRepository;//final 은 값이 무조건 있어야 한고, 한번 초기화되면 변경할 수 없는 상수값이 된다.
-    private final DiscountPolicy discountPolicy;
+    private MemberRepository memberRepository;//final 은 값이 무조건 있어야 한고, 한번 초기화되면 변경할 수 없는 상수값이 된다.
+    private DiscountPolicy discountPolicy;
+
+    @Autowired(required = false)//MemberRepository가 스프링 빈에 등록되지 않았을 때도 사용가능, 필수값 X(선택적 의존관계 주입), default: true
+    public void setMemberRepository(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    @Autowired
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
+    }
 
     //객체 의존관계가 주입됨 => DI(dependency injection)
     @Autowired //자동으로 스프링 컨테이너에서 해당 타입 객체 찾아서 (의존관계)주입, ac.getBean(MemberRepository.class), ac.getBean(DiscountPolicy) 와 유사, 생성자 하나면 생략가능
