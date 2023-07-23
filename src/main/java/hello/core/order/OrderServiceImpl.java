@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderServiceImpl implements OrderService{
     //추상(인터페이스)에만 의존 => DIP준수!!!
-    private final MemberRepository memberRepository;//final 은 값이 무조건 있어야 한고, 한번 초기화되면 변경할 수 없는 상수값이 된다.
+    private final MemberRepository memberRepository;//final 은 값이 무조건 있어야 한고, 한번 초기화되면 변경할 수 없는 상수값이 된다. 생성자 주입 방식만 final 키워드 사용 가능
     private final DiscountPolicy discountPolicy;
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
