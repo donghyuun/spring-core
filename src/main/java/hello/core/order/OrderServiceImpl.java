@@ -11,11 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor // final 이 붙은(required인) 필드를 가지고 생성자를 자동으로 만들어준다(눈으론 안보임)
 public class OrderServiceImpl implements OrderService{
     //추상(인터페이스)에만 의존 => DIP준수!!!
     private final MemberRepository memberRepository;//final 은 값이 무조건 있어야 한고, 한번 초기화되면 변경할 수 없는 상수값이 된다. 생성자 주입 방식만 final 키워드 사용 가능
     private final DiscountPolicy discountPolicy;
+
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
