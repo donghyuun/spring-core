@@ -44,7 +44,6 @@ public class SingletonWithPrototypeTest1 {
 
         @Autowired
         private Provider<PrototypeBean> prototypeBeanProvider;//Provider(자바표준!) => 스프링 컨테이너를 통해 해당 빈을 찾아서 반환한다. 자바 표준이므로 스프링이 아닌 다른 컨테이너에서도 사용 가능
-        //+) ObjectProvider는 스프링이 자동으로 만들어서 주입해준다
 
         public int logic() {
             PrototypeBean prototypeBean = prototypeBeanProvider.get();//PrototypeBean 타입의 빈을 요청한다 => 매번 생성되어짐
@@ -53,6 +52,7 @@ public class SingletonWithPrototypeTest1 {
             return count;
         }
     }
+
     @Scope("prototype")
     static class PrototypeBean {
         private int count = 0;
