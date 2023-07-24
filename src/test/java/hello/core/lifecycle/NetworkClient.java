@@ -1,5 +1,8 @@
 package hello.core.lifecycle;
 
+import jakarta.annotation.PostConstruct;//자바 공식 지원, 스프링 컨테이너 아니더라도 사용 가능(스프링 종속 기술 X)
+import jakarta.annotation.PreDestroy;
+
 public class NetworkClient {
 
     private String url;
@@ -26,12 +29,14 @@ public class NetworkClient {
         System.out.println("close: " + url);
     }
 
+    @PostConstruct
     public void init() throws Exception {//afterProperties, 즉 의존관계 주입 이후 실행되는 메서드
         System.out.println("NetworkClient.init");
         connect();
         call("초기화 연결 메시지");
     }
 
+    @PreDestroy
     public void close() throws Exception {//destroy, 즉 스프링 빈 소멸 직전 실행되는 메서드
         System.out.println("NetworkClient.close");
         disconnect();
