@@ -2,6 +2,7 @@ package hello.core.scope;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.inject.Provider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.ObjectProvider;
@@ -42,11 +43,11 @@ public class SingletonWithPrototypeTest1 {
     static class ClientBean {
 
         @Autowired
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider;//ObjectProvider는 스프링 컨테이너를 통한 dependency lookup(DL) 과정을 간단하게 할 수 있도록 도와줌(대리자) => 스프링 컨테이너를 통해 해당 빈을 찾아서 반환한다.
+        private Provider<PrototypeBean> prototypeBeanProvider;//Provider(자바표준!) => 스프링 컨테이너를 통해 해당 빈을 찾아서 반환한다. 자바 표준이므로 스프링이 아닌 다른 컨테이너에서도 사용 가능
         //+) ObjectProvider는 스프링이 자동으로 만들어서 주입해준다
 
         public int logic() {
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();//PrototypeBean 타입의 빈을 요청한다 => 매번 생성되어짐
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();//PrototypeBean 타입의 빈을 요청한다 => 매번 생성되어짐
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
