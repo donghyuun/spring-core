@@ -4,6 +4,8 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
@@ -33,18 +35,18 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         clientBean2.logic();//기존에 이미 주입되었던 prototype을 사용하게 됨 => 이걸 거면 그냥 싱글톤 쓰지, 의도하고자 한게 아님, 나는 프로토타입 빈을 사용할때마다 새로 생성되기를 원함
-         assertThat(count1).isEqualTo(2);
+         assertThat(count1).isEqualTo(1);
     }
 
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean;//생성시점에 주입
 
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        @Autowired
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider;//ObjectProvider는 스프링 컨테이너를 통한 dependency lookup(DL) 과정을 간단하게 할 수 있도록 도와줌(대리자) => 스프링 컨테이너를 통해 해당 빈을 찾아서 반환한다.
+        //+) ObjectProvider는 스프링이 자동으로 만들어서 주입해준다
 
         public int logic() {
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();//PrototypeBean 타입의 빈을 요청한다 => 매번 생성되어짐
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
