@@ -3,12 +3,13 @@ package hello.core.common;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-@Scope(value = "request")//빈이 http 요청 당 하나씩 생성되고, http 요청이 끝나는 시점에 소멸함
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)//빈이 http 요청 당 하나씩 생성되고, http 요청이 끝나는 시점에 소멸함, 가짜 프록시 객체를 생성하는데, 이 객체는 내부에 진짜 myLogger 를 찾는 법을 알고  있다.
 public class MyLogger {
     private String uuid;
     private String requestURL;
