@@ -12,23 +12,19 @@ import java.util.UUID;
 public class MyLogger {
     private String uuid;
     private String requestURL;
-
     public void setRequestURL(String requestURL) {
         this.requestURL = requestURL;
+    } public void log(String message) {
+        System.out.println("[" + uuid + "]" + "[" + requestURL + "] " +
+                message);
     }
-
-    public void log(String message) {
-        System.out.println("[" + uuid + "]" + "[" + requestURL + "] " + message);
-    }
-
     @PostConstruct
-    public void init() {
-        String uuid = UUID.randomUUID().toString();//=> http 요청 당 하나씩 생성되므로 uuid 를 저장해두면 다른 http 요청과 구분 가능
-        System.out.println("[" + uuid + "] request scope bean create: " + this);
+    public void init() {//=> http 요청 당 하나씩 생성되므로 uuid 를 저장해두면 다른 http 요청과 구분 가능
+        uuid = UUID.randomUUID().toString();
+        System.out.println("[" + uuid + "] request scope bean create:" + this);
     }
-
     @PreDestroy
     public void close() {
-        System.out.println("[" + uuid + "] request scope bean close: " + this);
+        System.out.println("[" + uuid + "] request scope bean close:" + this);
     }
 }
